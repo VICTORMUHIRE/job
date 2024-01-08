@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SeekerRegistrationRequest;
+use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,11 +10,18 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     const JOB_SEEKER = 'seeker';
+    const JOB_POSTER = 'employer';
+
     public function createSeeker()
     {
         return view('users.seeker-register');
     }
-    public function storeSeeker(SeekerRegistrationRequest $request)
+
+    public function createEmployer()
+    {
+        return view('users.employer-register');
+    }
+    public function storeSeeker(RegistrationRequest $request)
     {
         User::create([
             'name' => request('name'),
@@ -23,8 +30,21 @@ class UserController extends Controller
             'user_type' => self::JOB_SEEKER
         ]);
 
-        return back();
+        return redirect()->route('login')->with('successMessage', 'your account was created') ;
     }
+    public function storeEmployer(RegistrationRequest $request)
+    {
+        User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'password' => bcrypt(request('password')),
+            'user_type' => self::JOB_POSTER
+        ]);
+
+        return redirect()->route('login')->with('successMessage', 'your account was created')  ;
+    }
+
+
     public function login()
     {
         return view('users.login');
@@ -40,5 +60,11 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
            return redirect()->intended('dashboad');
         }
+        return 'Wrong email or password';
+    }
+    public function logout()
+    {
+        auth()->logout();
+        return redirect()->route('login'); 
     }
 }

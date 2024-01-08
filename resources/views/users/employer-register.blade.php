@@ -5,18 +5,18 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-6">
-            <h1>Looking for a job?</h1>
+            <h1>Looking for a Employee?</h1>
             <h3>Please create an account</h3>
             <img src="{{asset('image/register.jpg')}}" alt="">
         </div>
         <div class="col-md-6 ">
            <div class="card">
-            <div class="card-header">Register</div>
+            <div class="card-header"> Employer Registration</div>
             <div class="card-body">
-                <form action="{{route('store.seeker')}}" method="post">
+                <form action="{{route('store.employer')}}" method="post">
                     @csrf
                     <div class="form-group">
-                        <label for="">Full name</label>
+                        <label for="">Company name</label>
                         <input type="text" name="name" class="form-control">
 
                         @if($errors -> has('name'))                         

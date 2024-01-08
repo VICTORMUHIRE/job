@@ -18,15 +18,25 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
               </li>
+
+              @if(!Auth::check()) 
+
               <li class="nav-item">
                 <a class="nav-link" href="{{route('login')}}">Login</a>
-              </li>
+              </li>            
               <li class="nav-item">
                 <a class="nav-link" href="{{route('create.seeker')}}">Job Seeker</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" >Employer</a>
+                <a class="nav-link" href="{{route('create.employer')}}" >Employer</a>
               </li>
+            @endif
+            @if(Auth::check())
+              <li class="nav-item">
+                <a class="nav-link" id="logout" href="#" >Logout</a>
+              </li>
+            @endif
+            <form id="form-logout" action="{{route('logout')}}" method="post">@csrf</form>
             </ul>
           </div>
         </div>
@@ -35,7 +45,13 @@
       @yield('content')
     
 
-
+      <script>
+        let logout = document.getElementById('logout');
+        let form = document.getElementById('form-logout');
+        logout.addEventListener('click',function(){
+          form.submit();  
+        })
+      </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
 </html>

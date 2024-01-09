@@ -2,11 +2,14 @@
 
 @section('content')
 
-<div class="container mt-4">
+<div class="container mt-5">
     <div class="row justify-content-center"> 
 
-        {{auth()->user()->name}}
-        {{auth()->user()->email}}
+        Hello, {{auth()->user()->name}}
+        <p>Your trial expire on {{auth()->useer()->user_trial }}</p>
+
+
+        
     </div>
 </div>
 @endsection

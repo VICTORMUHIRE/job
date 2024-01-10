@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboadController;
 use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request){
+    $request->fulfill();
+    return redirect('/home');
+})->middleware(['auth','signed'])->name('verification.verify');
+
 
 
 Route::get('/users', function () {
@@ -35,4 +41,8 @@ Route::get('/login',[UserController::class,'login'])->name('login');
 Route::post('/login',[UserController::class,'loginPost'])->name('login.post');
 Route::post('/logout',[UserController::class,'logout'])->name('logout'); 
 
-Route::get('/dashboad', [DashboadController::class, 'index'])->name('dashboad');
+Route::get('/dashboad', [DashboadController::class, 'index'])
+->name('dashboad')
+->middleware('verified');
+
+Route::get('/verifiy', [DashboadController::class, 'verify'])->name('verification.notice');

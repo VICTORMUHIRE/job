@@ -14,4 +14,8 @@ class DashboadController extends Controller
     {
         return view('dashboad');
     }
+    public function verify()
+    {
+        return view('users.verify');
+    }
 }

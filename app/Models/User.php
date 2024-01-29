@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -28,8 +29,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'user_trial',
         'billing_ends',
         'status',
-        'plan'
+        'plan',
     ];
+
+    public function listings()
+    {
+        return $this->belongsToMany(Listing::class,'listing_user', 'user_id', 'listing_id')
+            ->withPivot('shortlisted')
+            ->withTimestamps();
+    }
+
+    public function jobs()
+    {
+        return $this->hasMany(Listing::class, 'user_id', 'id');
+    }
+
+ 
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -48,6 +64,5 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 }
